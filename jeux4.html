@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOM DU JEU - JUNIORGAMING</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --purple-main: #9c27b0; --bg-light: #f4f4f9; --bg-dark: #121212; }
+        body { font-family: sans-serif; margin: 0; background: var(--bg-light); transition: 0.3s; }
+        body.dark-mode { background: var(--bg-dark); color: white; }
+
+        /* HEADER PRO */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        body.dark-mode header { background: #1e1e1e; color: white; }
+        .header-btns button { background: none; border: none; font-size: 20px; cursor: pointer; color: inherit; }
+
+        /* BANNIÈRE JEU */
+        .game-banner { width: 100%; height: 250px; background-size: cover; background-position: center; position: relative; }
+        .banner-overlay { position: absolute; bottom: 0; width: 100%; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; box-sizing: border-box; }
+
+        /* GRILLE TECHNIQUE (Comme la vidéo) */
+        .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; }
+        .tech-item { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        body.dark-mode .tech-item { background: #1e1e1e; border: 1px solid #333; }
+        .tech-item i { color: var(--purple-main); font-size: 20px; margin-bottom: 5px; display: block; }
+        .tech-item span { font-size: 11px; color: #888; display: block; }
+        .tech-item strong { font-size: 13px; }
+
+        /* BOUTON TÉLÉCHARGER */
+        .download-section { text-align: center; padding: 20px; }
+        .btn-download { background: #2563eb; color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; display: inline-block; width: 80%; }
+        .description-section, .screenshots-section {
+    padding: 15px;
+}
+
+.description-section p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+}
+
+body.dark-mode .description-section p { color: #bbb; }
+
+.screenshots-container {
+    display: flex;
+    overflow-x: auto; /* Permet le défilement horizontal */
+    gap: 10px;
+    padding-bottom: 10px;
+    scrollbar-width: thin;
+}
+
+.screenshots-container img {
+    width: 250px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.screenshots-container img:hover {
+    transform: scale(1.05);
+}
+/* Le cercle de chargement */
+.timer-circle {
+    width: 80px;
+    height: 80px;
+    border: 4px solid #9c27b0;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    font-weight: bold;
+    animation: pulse 1s infinite;
+}
+
+.timer-circle span { font-size: 24px; }
+.timer-circle small { font-size: 10px; }
+
+/* Les boutons finaux */
+.final-btn {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    padding: 15px;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: left;
+}
+
+.blue { background: #2b6cb0; }
+.purple { background: #6b46c1; }
+.green { background: #2f855a; }
+
+.ready-text { color: #25D366; font-size: 12px; font-weight: bold; margin-bottom: 20px; }
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(156, 39, 176, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(156, 39, 176, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(156, 39, 176, 0); }
+}
+.comments-section {
+    padding: 20px;
+    margin-top: 30px;
+    border-top: 1px solid #333;
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.comment-form input, .comment-form textarea {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: #1a1a1a;
+    color: white;
+}
+
+.comment-form button {
+    background: var(--purple-main);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.comment-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--purple-main);
+}
+
+.comment-item strong { color: var(--purple-main); display: block; margin-bottom: 5px; }
+.comment-item p { margin: 0; font-size: 14px; }
+.comment-item small { color: #777; font-size: 11px; }
+.header-game-info {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espace entre l'image et le texte */
+}
+.main-hero-image {
+    width: 100%;           /* Prend toute la largeur */
+    height: 200px;         /* Tu peux régler la hauteur ici */
+    object-fit: cover;     /* Pour que l'image soit bien cadrée sans être déformée */
+    border-radius: 10px;   /* Coins arrondis */
+    margin-bottom: 15px;   /* Espace avec le titre "Nom du jeu" */
+}
+.game-titles {
+    text-align: center;
+    padding: 30px 15px; /* Ça donne de l'espace en haut et en bas */
+}
+.game-titles {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 20px;
+    margin: 20px;
+    border: 1px solid #4834d4; /* Une petite bordure néon */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.game-titles h1 {
+    color: #ffffff;
+    font-size: 32px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+.tech-item {
+    background: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #eee;
+}
+
+.tech-item:hover {
+    transform: translateY(-5px); /* La carte monte un peu */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    border-color: #4834d4;
+}
+.btn-download {
+    background: linear-gradient(90deg, #4834d4, #686de0);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px; /* Bouton très arrondi */
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(72, 52, 212, 0.4);
+    animation: pulse 2s infinite; /* Animation de battement */
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+/* Fond de page plus moderne */
+body {
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Le bloc de titre avec un dégradé stylé */
+.game-titles {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    border-radius: 0 0 30px 30px; /* Arrondi seulement en bas */
+    box-shadow: 0 10px 30px rgba(37, 117, 252, 0.3);
+    margin-bottom: 30px;
+}
+
+.game-titles h1 {
+    font-size: 35px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Effets sur les petites cartes d'infos (Sécurité, Taille, etc.) */
+.tech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 15px;
+}
+
+.tech-item {
+    background: rgba(255, 255, 255, 0.1); /* Transparent */
+    backdrop-filter: blur(10px); /* Flou derrière la carte */
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: transform 0.3s ease;
+}
+
+.tech-item i {
+    color: #00d2ff; /* Icônes en bleu brillant */
+    font-size: 28px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.tech-item strong {
+    color: #ff007f; /* Texte important en rose néon pour le contraste */
+}
+
+
+.tech-item:active { /* Effet quand on clique sur mobile */
+    transform: scale(0.95);
+    border-color: #2575fc;
+    box-shadow: 0 0 15px rgba(37, 117, 252, 0.4);
+}
+
+.tech-item i {
+    font-size: 24px;
+    color: #6a11cb; /* Couleur des icônes */
+    margin-bottom: 10px;
+}
+
+/* Le bouton de téléchargement avec effet de brillance */
+.btn-download {
+    width: 90%;
+    margin: 20px auto;
+    display: block;
+    background: linear-gradient(90deg, #ff00cc, #3333ff);
+    background-size: 200% auto;
+    color: white;
+    padding: 18px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transition: 0.5s;
+}
+
+.btn-download:active {
+    background-position: right center; /* Change la couleur au clic */
+}
+body {
+    margin: 0;
+    padding: 0;
+    /* On utilise des couleurs vives : bleu, violet, et une touche de grenat */
+    background: linear-gradient(-45deg, #004d98, #4834d4, #a50044, #1a1a2e);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+/* L'animation qui fait bouger les couleurs */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.game-titles h1 {
+    font-size: 38px;
+    font-weight: 900;
+    text-transform: uppercase;
+    background: linear-gradient(to right, #fff, #00d2ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.5));
+    margin-top: 20px;
+}
+header {
+    background: rgba(255, 255, 255, 0.05); /* Ultra transparent */
+    backdrop-filter: blur(15px); /* Effet de flou intense */
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1, header .logo-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0;
+}
+
+/* Style pour l'icône de retour ou le menu */
+header i {
+    color: #00d2ff; /* Bleu néon comme tes autres icônes */
+    font-size: 22px;
+}
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Poppins:wght@900&display=swap');
+
+.logo-custom {
+    display: flex;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+}
+
+.part1, .part2 {
+    color: #f39c12; /* Le orange du logo */
+}
+
+.part-g {
+    font-family: 'Permanent Marker', cursive;
+    background-color: white;
+    color: black;
+    padding: 0 8px;
+    margin: 0 4px;
+    border: 2px solid black;
+    border-radius: 10px;
+    transform: rotate(-5deg);
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
+}
+/* Style pour la zone des commentaires */
+.comments-section {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Le champ pour écrire un commentaire */
+.comment-input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: white;
+    padding: 10px;
+    width: 100%;
+}
+
+/* Le bouton "Publier" */
+.btn-publish {
+    background: #f39c12; /* On reprend le orange de ton logo */
+    color: black;
+    font-weight: bold;
+    border-radius: 50px;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+}
+.comment-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border-left: 3px solid #f39c12; /* Rappel du orange de ton logo */
+}
+
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="Juniorgaming.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    
+    <div class="logo-custom">
+    <span class="part1">Junior</span><span class="part-g">G</span><span class="part2">aming</span>
+</div>
+
+    
+    <i class="fas fa-moon"></i>
+</header>
+
+
+        <div class="game-titles">
+            <h1>FIFA 16 MOD FC2026 APK OBB+DATA</h1>
+            <p><i class="fas fa-star" style="color: gold;"></i> 4.8 • PSP ISO</p>
+        </div>
+    </div>
+</div>
+                            
+</div>
+
+<div class="tech-grid">
+    <div class="tech-item"><i class="fas fa-shield-alt"></i><span>SÉCURITÉ</span><strong>Vérifié</strong></div>
+    <div class="tech-item"><i class="fas fa-lock"></i><span>MOT DE PASSE</span><strong>Aucun</strong></div>
+    <div class="tech-item"><i class="fas fa-file-archive"></i><span>TAILLE</span><strong>2.9 GB</strong></div>
+    <div class="tech-item"><i class="fas fa-language"></i><span>LANGUE</span><strong>Français</strong></div>
+</div>
+
+<div class="download-section">
+    <div id="preparation-zone">
+        <button class="btn-download" onclick="startGeneration()">
+            <i class="fas fa-download"></i> OBTENIR LES FICHIERS
+        </button>
+    </div>
+
+    <div id="timer-zone" style="display: none;">
+        <div class="timer-circle">
+            <span id="seconds">5</span>
+            <small>SEC</small>
+        </div>
+        <p><i class="fas fa-lock"></i> Connexion sécurisée en cours...</p>
+    </div>
+
+    <div id="links-zone" style="display: none;">
+        <p class="ready-text"><i class="fas fa-check-circle"></i> LIEN PRÊT - CHOISISSEZ UN SERVEUR</p>
+        
+        <a href="https://adfly.site/BjviFYQ0" class="final-btn blue"><i class="fas fa-file-download"></i>TÉLÉCHARGER APK</a>
+        <a href="https://adfly.site/AhHT" class="final-btn purple"><i class="fas fa-clone"></i>TÉLÉCHARGER ANDROID 14+</a>
+        <a href="https://adfly.site/YtFbA" class="final-btn green"><i class="fab fa-android"></i>TÉLÉCHARGER OBB</a>
+        <a href="https://adfly.site/gWma4W3p" class="final-btn blue"><i class="fas fa-fille-download"></i> TÉLÉCHARGÉ DATA</a>
+    </div>
+</div>
+<div class="comments-section">
+    <h3><i class="fas fa-comments"></i> COMMENTAIRES</h3>
+    
+    <div class="comment-form">
+        <input type="text" id="commentName" placeholder="Ton nom (ex: JuniorGamer)">
+        <textarea id="commentText" placeholder="Laisse un commentaire..."></textarea>
+        <button onclick="addComment()">PUBLIER <i class="fas fa-paper-plane"></i></button>
+    </div>
+
+    <div class="comments-section">
+    <h3>Commentaires</h3>
+    <div id="commentsList">
+        </div>
+</div>
+
+</div>
+
+    
+    <div id="timerContainer" style="display: none; margin-top: 15px; font-weight: bold; color: var(--purple-main);">
+        Lien prêt dans <span id="seconds">5</span> secondes...
+    </div>
+</div>
+
+<div class="description-section">
+    <h3><i class="fas fa-info-circle"></i> À PROPOS DU JEU</h3>
+    <p>La nouvelle mise à jour de ce jeu apporte des graphismes HD, des transferts à jour et un gameplay amélioré pour une expérience fluide sur mobile.</p>
+</div>
+
+<div class="screenshots-section">
+    <h3><i class="fas fa-camera"></i> CAPTURES D'ÉCRAN</h3>
+    <div class="screenshots-container">
+        <img src="screen1.jpg" alt="Screenshot 1" onclick="openFullImage(this.src)">
+        <img src="screen2.jpg" alt="Screenshot 2" onclick="openFullImage(this.src)">
+        <img src="screen3.jpg" alt="Screenshot 3" onclick="openFullImage(this.src)">
+    </div>
+</div>
+
+<script>
+// 1. On crée la clé de mémoire
+const gameKey = "deja_fait_" + window.location.pathname;
+
+window.addEventListener('load', () => {
+    // ON VERIFIE COMMENT L'UTILISATEUR EST ARRIVÉ ICI
+    const navEntries = performance.getEntriesByType("navigation");
+    const navType = navEntries.length > 0 ? navEntries[0].type : "";
+
+    // CONDITION : On montre les liens SEULEMENT si c'est un retour en arrière (back_forward)
+    if (navType === "back_forward" && sessionStorage.getItem(gameKey) === 'oui') {
+        document.getElementById('preparation-zone').style.display = 'none';
+        document.getElementById('timer-zone').style.display = 'none';
+        document.getElementById('links-zone').style.display = 'block';
+    } else {
+        // SI ON VIENT DE L'ACCUEIL : On efface tout pour relancer le chrono
+        sessionStorage.removeItem(gameKey);
+        document.getElementById('preparation-zone').style.display = 'block';
+        document.getElementById('timer-zone').style.display = 'none';
+        document.getElementById('links-zone').style.display = 'none';
+    }
+});
+
+// 3. LA SEULE ET UNIQUE FONCTION (Supprime l'autre plus bas)
+function startGeneration() {
+    // On cache le bouton
+    document.getElementById('preparation-zone').style.display = 'none';
+    
+    // On montre le compteur
+    document.getElementById('timer-zone').style.display = 'block';
+
+    let timeLeft = 5;
+    const secondsSpan = document.getElementById('seconds');
+
+    const countdown = setInterval(() => {
+        timeLeft--;
+        secondsSpan.innerText = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            
+            // ICI : On écrit "oui" dans la mémoire du téléphone
+            sessionStorage.setItem(gameKey, 'oui');
+
+            // On cache le compteur et on montre les liens
+            document.getElementById('timer-zone').style.display = 'none';
+            document.getElementById('links-zone').style.display = 'block';
+        }
+    }, 1000);
+}
+
+    function openFullImage(src) {
+    window.open(src, '_blank');
+}
+// Fonction pour charger les commentaires enregistrés au démarrage
+window.addEventListener('DOMContentLoaded', () => {
+    const savedComments = JSON.parse(localStorage.getItem('commentaires_juniorgaming')) || [];
+    const list = document.getElementById('commentsList');
+    savedComments.forEach(comment => {
+        displayComment(comment.name, comment.text, list);
+    });
+});
+
+function addComment() {
+    const name = document.getElementById('commentName').value;
+    const text = document.getElementById('commentText').value;
+    const list = document.getElementById('commentsList');
+
+    if (name === "" || text === "") {
+        alert("Remplis ton nom et ton message !");
+        return;
+    }
+
+    // Afficher le commentaire immédiatement
+    displayComment(name, text, list);
+
+    // Sauvegarder dans la mémoire (localStorage)
+    const savedComments = JSON.parse(localStorage.getItem('commentaires_juniorgaming')) || [];
+    savedComments.unshift({ name: name, text: text }); // On l'ajoute au début
+    localStorage.setItem('commentaires_juniorgaming', JSON.stringify(savedComments));
+
+    // Vider les champs
+    document.getElementById('commentName').value = "";
+    document.getElementById('commentText').value = "";
+}
+
+// Petite fonction pour créer l'affichage du commentaire
+function displayComment(name, text, list) {
+    const newComment = document.createElement('div');
+    newComment.className = 'comment-item';
+    newComment.innerHTML = `
+        <strong>${name}</strong>
+        <p>${text}</p>
+        <small>Publié sur Juniorgaming</small>
+    `;
+    list.prepend(newComment);
+}
+
+</script>
+
+</body>
+</html>

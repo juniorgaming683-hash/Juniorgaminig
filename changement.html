@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chargement - JuniorGaming</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #0b0b0b;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        /* Texte stylé pour remplacer le logo */
+        .logo-text {
+            font-size: 40px;
+            text-align: center;
+            line-height: 1;
+            margin-bottom: 30px;
+        }
+
+        .junior {
+            color: #00a2ff; /* Bleu du logo */
+            display: block;
+        }
+
+        .gaming {
+            color: #ff8c00; /* Orange du logo */
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+
+        /* Animation des points */
+        .dots { display: flex; gap: 10px; }
+        .dot {
+            width: 12px; height: 12px;
+            background-color: #00a2ff;
+            border-radius: 50%;
+            animation: pulse 1s infinite alternate;
+        }
+        .dot:nth-child(2) { animation-delay: 0.3s; }
+        .dot:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes pulse {
+            from { opacity: 0.2; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1.2); }
+        }
+
+        .loading-text {
+            margin-top: 15px;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #555;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo-text">
+        <span class="junior">Junior</span>
+        <span class="gaming">Gaming</span>
+    </div>
+
+    <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+
+    <div class="loading-text">CHARGEMENT...</div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const destinationPage = urlParams.get('page');
+
+    setTimeout(() => {
+        if (destinationPage) {
+            // "replace" remplace la page de chargement dans l'historique
+            // comme ça, le bouton retour l'ignorera
+            window.location.replace(destinationPage);
+        } else {
+            window.location.replace("Juniorgaming.html");
+        }
+    }, 1000); 
+</script>
+
+
+</body>
+</html>
